@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'accounts.apps.AccountsConfig',
+    'flight.apps.FlightConfig',
 ]
 
 MIDDLEWARE = [
