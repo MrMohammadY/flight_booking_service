@@ -4,6 +4,7 @@ from rest_framework.generics import GenericAPIView, CreateAPIView, UpdateAPIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from accounts.api.permissions import IsAnonymous
 from accounts.api.serializers import OTPSerializer, UserRegistrationSerializer, UserPasswordLoginSerializer, \
     UserOTPLoginSerializer, ForgotPasswordSerializer
 from accounts.utils import redis_set_otp
@@ -12,6 +13,7 @@ User = get_user_model()
 
 
 class SendOTPAPIView(GenericAPIView):
+    permission_classes = (IsAnonymous,)
     serializer_class = OTPSerializer
 
     def get(self, request, *args, **kwargs):
@@ -25,6 +27,7 @@ class SendOTPAPIView(GenericAPIView):
 
 
 class UserRegistrationAPIView(CreateAPIView):
+    permission_classes = (IsAnonymous,)
     serializer_class = UserRegistrationSerializer
 
     def create(self, request, *args, **kwargs):
@@ -35,6 +38,7 @@ class UserRegistrationAPIView(CreateAPIView):
 
 
 class UserPasswordLoginAPIView(GenericAPIView):
+    permission_classes = (IsAnonymous,)
     lookup_url_kwarg = 'type'
 
     def get_serializer_class(self):
@@ -56,6 +60,7 @@ class UserPasswordLoginAPIView(GenericAPIView):
 
 
 class ForgotPasswordAPIView(UpdateAPIView):
+    permission_classes = (IsAnonymous,)
     serializer_class = ForgotPasswordSerializer
 
     def get_object(self):
