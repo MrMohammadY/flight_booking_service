@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.db import models
+from django.db import models, transaction
 from django.utils.translation import ugettext_lazy as _
 
 from libs.models import BaseModel
@@ -77,7 +77,7 @@ class Flight(BaseModel):
     arrive_datetime = models.DateTimeField(verbose_name=_('modified time'))
 
     def prototype_create_seats(self):
-        for c in self.plane.capacity:
+        for c in range(1, self.plane.capacity + 1):
             FlightSeat.objects.create(flight=self, seat=Seat.objects.create(number=c))
 
     def __str__(self):
