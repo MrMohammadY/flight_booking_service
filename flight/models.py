@@ -59,6 +59,7 @@ class Plane(BaseModel):
 
 
 class Flight(BaseModel):
+    flight_number = models.CharField(max_length=150, verbose_name=_('flight number'))
     plane = models.ForeignKey(Plane, related_name='flights', on_delete=models.CASCADE, verbose_name=_('plane'))
     from_city = models.ForeignKey(
         City,
