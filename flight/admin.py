@@ -4,43 +4,43 @@ from .models import *
 
 
 @admin.register(AirLine)
-class AdminAirLine(admin.ModelAdmin):
+class AirLineAdmin(admin.ModelAdmin):
     list_display = ('name',)
     search_fields = ('name',)
 
 
 @admin.register(Plane)
-class AdminPlane(admin.ModelAdmin):
+class PlaneAdmin(admin.ModelAdmin):
     list_display = ('name', 'airline', 'capacity')
     list_filter = ('airline',)
     search_fields = ('name', 'airline__name')
 
 
 @admin.register(Flight)
-class AdminFlight(admin.ModelAdmin):
-    list_display = ('plane', 'from_city', 'to_city', 'depart_datetime', 'arrive_datetime')
+class FlightAdmin(admin.ModelAdmin):
+    list_display = ('flight_number', 'plane', 'from_city', 'to_city', 'depart_datetime', 'arrive_datetime')
     list_filter = ('from_city', 'to_city')
     search_fields = ('plane', 'from_city__name', 'to_city__name')
 
 
 @admin.register(Seat)
-class AdminSeat(admin.ModelAdmin):
+class SeatAdmin(admin.ModelAdmin):
     list_display = ('number', 'is_reserve')
     list_filter = ('is_reserve',)
 
 
 @admin.register(FlightSeat)
-class AdminFlightSeat(admin.ModelAdmin):
+class FlightSeatAdmin(admin.ModelAdmin):
     list_display = ('flight', 'seat', 'customer')
 
 
 @admin.register(State)
-class AdminState(admin.ModelAdmin):
+class StateAdmin(admin.ModelAdmin):
     list_display = ('name',)
     search_fields = ('name',)
 
 
 @admin.register(City)
-class AdminCity(admin.ModelAdmin):
+class CityAdmin(admin.ModelAdmin):
     list_display = ('name', 'state')
     search_fields = ('name',)
