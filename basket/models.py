@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from basket.validators import national_code_validation
 from flight.models import Flight
 from libs.models import BaseModel
 
@@ -26,7 +27,7 @@ class Ticket(BaseModel):
     cart = models.ForeignKey(Cart, related_name='tickets', on_delete=models.CASCADE, verbose_name=_('cart'))
     first_name = models.CharField(max_length=50, verbose_name=_('first name'))
     last_name = models.CharField(max_length=60, verbose_name=_('last name'))
-    national_code = models.IntegerField(max_length=10, verbose_name=_('national code'))
+    national_code = models.IntegerField(verbose_name=_('national code'), validators=[national_code_validation])
     birthday = models.DateTimeField(verbose_name=_('birthday'))
 
     def __str__(self):
