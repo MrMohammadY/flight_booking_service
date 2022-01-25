@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'flight.apps.FlightConfig',
     'basket.apps.BasketConfig',
+    'payment.apps.PaymentConfig',
 ]
 
 MIDDLEWARE = [
