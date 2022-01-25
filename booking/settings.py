@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'accounts.apps.AccountsConfig',
+    'flight.apps.FlightConfig',
+    'basket.apps.BasketConfig',
+    'payment.apps.PaymentConfig',
 ]
 
 MIDDLEWARE = [
