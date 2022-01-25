@@ -75,6 +75,7 @@ class Flight(BaseModel):
     )
     depart_datetime = models.DateTimeField(verbose_name=_('depart datetime'))
     arrive_datetime = models.DateTimeField(verbose_name=_('modified time'))
+    price = models.IntegerField(verbose_name=_('price'))
 
     def prototype_create_seats(self):
         for c in range(1, self.plane.capacity + 1):

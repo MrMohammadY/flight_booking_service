@@ -3,7 +3,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from basket.validators import national_code_validation
-from flight.models import Flight
+from flight.models import Flight, FlightSeat
 from libs.models import BaseModel
 
 User = get_user_model()
@@ -24,6 +24,12 @@ class Cart(BaseModel):
 
 class Ticket(BaseModel):
     flight = models.ForeignKey(Flight, related_name='tickets', on_delete=models.CASCADE, verbose_name=_('flight'))
+    flight_seat = models.ForeignKey(
+        FlightSeat,
+        related_name='tickets',
+        on_delete=models.CASCADE,
+        verbose_name=_('flight seat')
+    )
     cart = models.ForeignKey(Cart, related_name='tickets', on_delete=models.CASCADE, verbose_name=_('cart'))
     first_name = models.CharField(max_length=50, verbose_name=_('first name'))
     last_name = models.CharField(max_length=60, verbose_name=_('last name'))
