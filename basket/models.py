@@ -27,9 +27,6 @@ class Cart(BaseModel):
     def calculate_cart_price(self):
         return self.tickets.aggregate(total_price=Sum('flight__price')).get('total_price')
 
-    def cart_is_empty(self):
-        return True if self.tickets.count() == 0 else False
-
     class Meta:
         verbose_name = _('Cart')
         verbose_name_plural = _('Carts')

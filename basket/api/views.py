@@ -45,7 +45,7 @@ class CartCheckoutAPIView(GenericAPIView):
 
     def get(self, request, *args, **kwargs):
         cart = Cart.get_or_created_cart(self.request.user)
-        if not cart.cart_is_empty():
+        if not cart.is_empty():
             Invoice.create_invoice_payment(self.request.user, cart)
             return redirect('payment:verify-payment')
         return Response({'message': 'your cart is empty!'}, status=status.HTTP_406_NOT_ACCEPTABLE)
