@@ -20,7 +20,7 @@ class FlightSeatSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FlightSeat
-        fields = ('seat',)
+        fields = ('id', 'seat',)
 
 
 class AirLineSerializer(serializers.ModelSerializer):
