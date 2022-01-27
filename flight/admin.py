@@ -31,7 +31,16 @@ class SeatAdmin(admin.ModelAdmin):
 
 @admin.register(FlightSeat)
 class FlightSeatAdmin(admin.ModelAdmin):
-    list_display = ('id', 'flight', 'seat', 'customer')
+    list_display = ('id', 'flight', 'is_reserved_seat', 'seat_number', 'customer')
+
+    def is_reserved_seat(self, obj, *args, **kwargs):
+        return obj.seat.is_reserve
+
+    def seat_number(self, obj, *args, **kwargs):
+        return obj.seat.number
+
+    is_reserved_seat.short_description = "seat is reserved"
+    seat_number.short_description = "seat number"
 
 
 @admin.register(State)
