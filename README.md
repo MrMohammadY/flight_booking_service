@@ -76,11 +76,11 @@ and after that applying migrations:
 
 and after apply migrations run celery:
 
-    celery -A delivery worker -l info
+    celery -A booking worker -l info
 
 and run celery beat:
 
-    celery -A delivery beat -l info
+    celery -A booking beat -l info
 
 and run redis server:
     
