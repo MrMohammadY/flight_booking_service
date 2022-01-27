@@ -4,6 +4,7 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
 from basket.models import Ticket
+from payment.models import Invoice
 
 
 @receiver(post_save, sender=Ticket)
@@ -28,7 +29,10 @@ def un_reserve_seat(sender, instance, **kwargs):
 @receiver(post_delete, sender=Ticket)
 def delete_invoice_payment(sender, instance, **kwargs):
     if instance.cart.is_empty():
-        instance.cart.invoice.payments.all().delete()
-        instance.cart.invoice.delete()
+        try:
+            instance.cart.invoice.payments.all().delete()
+            instance.cart.invoice.delete()
+        except Invoice.DoesNotExist:
+            pass
     else:
         instance.cart.invoice.create_invoice_payment(instance.cart.user, instance.cart)

@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from payment.api.permissions import PaymentCheck
 from basket.models import Cart
 from payment.api.serializers import PaymentVerifySerializer
-from payment.models import Invoice
+from payment.models import Invoice, Payment
 
 
 class PaymentVerifyAPIView(UpdateAPIView):
@@ -17,6 +17,7 @@ class PaymentVerifyAPIView(UpdateAPIView):
     """
     permission_classes = (IsAuthenticated, PaymentCheck)
     serializer_class = PaymentVerifySerializer
+    queryset = Payment.objects.all()
 
     def get_object(self):
         cart = Cart.get_or_created_cart(self.request.user)
@@ -28,11 +29,6 @@ class PaymentVerifyAPIView(UpdateAPIView):
             return redirect('basket:cart-checkout')
         return payment
 
-    def get(self, request, *args, **kwargs):
-        self.get_object()
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(True)
-        return Response(serializer.data)
 
     def update(self, request, *args, **kwargs):
         response = super().update(request, *args, **kwargs)
