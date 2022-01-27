@@ -26,7 +26,7 @@ go to FTBooking directory:
 
 clone the project:
 
-    https://github.com/MrMohammadY/flight_booking_service.git
+    git clone https://github.com/MrMohammadY/flight_booking_service.git
 
 create virtualenv in Delivery_Management directory:
 
