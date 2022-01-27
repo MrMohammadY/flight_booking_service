@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models, transaction
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from libs.models import BaseModel
@@ -81,6 +82,9 @@ class Flight(BaseModel):
         for c in range(1, self.plane.capacity + 1):
             FlightSeat.objects.create(flight=self, seat=Seat.objects.create(number=c))
 
+    def available_flight_depart_datetime(self):
+        return bool(self.depart_datetime > timezone.now())
+
     def __str__(self):
         return f'{self.plane} - {self.from_city} - {self.to_city}'
 
@@ -93,9 +97,10 @@ class Flight(BaseModel):
 class Seat(BaseModel):
     number = models.PositiveSmallIntegerField(verbose_name=_('number'))
     is_reserve = models.BooleanField(verbose_name=_('is reserve'), default=False)
+    reserved_time = models.DateTimeField(default=None, null=True, blank=True)
 
     def __str__(self):
-        return f''
+        return f'{self.number} - {self.is_reserve}'
 
     class Meta:
         verbose_name = _('Seat')
@@ -113,6 +118,9 @@ class FlightSeat(BaseModel):
         verbose_name=_('customer'),
         null=True, blank=True
     )
+
+    def available_flight_seat(self):
+        return bool(self.customer is None and not self.seat.is_reserve)
 
     class Meta:
         verbose_name = _('Flight Seat')
