@@ -95,7 +95,7 @@ class UserOTPLoginSerializer(CustomTokenObtainSerializer, serializers.Serializer
         try:
             user = User.objects.get(phone_number=attrs['phone_number'])
         except User.DoesNotExist:
-            raise ValidationError(_('phone number incorrect!'))
+            raise ValidationError(_('user with this phone number does not exists!'))
         else:
             redis_check_otp(user.phone_number, attrs.pop('code'))
             authenticate_kwargs = dict(request=self.context['request'], username=user.username, password=user.password)
