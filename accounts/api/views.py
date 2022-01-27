@@ -13,11 +13,14 @@ User = get_user_model()
 
 
 class SendOTPAPIView(GenericAPIView):
+    """
+    Request to this view should as anonymous user
+    Get a phone number and set key value as phone number and otp code which otp code expired tine is 3 minutes in
+    redis database and return that code to user for register and login.
+    - phone number should like 981234567890 is 12 character and start with 98
+    """
     permission_classes = (IsAnonymous,)
     serializer_class = OTPSerializer
-
-    def get(self, request, *args, **kwargs):
-        return Response(self.get_serializer().data)
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -27,6 +30,16 @@ class SendOTPAPIView(GenericAPIView):
 
 
 class UserRegistrationAPIView(CreateAPIView):
+    """
+    Request to this view should as anonymous user
+    Before request to register you should get otp code and send user information:
+    - username
+    - email
+    - phone number
+    - password
+    - otp code
+
+    """
     permission_classes = (IsAnonymous,)
     serializer_class = UserRegistrationSerializer
 
@@ -38,6 +51,11 @@ class UserRegistrationAPIView(CreateAPIView):
 
 
 class UserPasswordLoginAPIView(GenericAPIView):
+    """
+    Request to this view should as anonymous user
+    Get type in url, type can be password to get phone number and password or otp code to get phone number and otp code
+    if you choose otp code before that you should get otp code
+    """
     permission_classes = (IsAnonymous,)
     lookup_url_kwarg = 'type'
 
@@ -60,6 +78,17 @@ class UserPasswordLoginAPIView(GenericAPIView):
 
 
 class ForgotPasswordAPIView(UpdateAPIView):
+    """
+    Request to this view should as anonymous user
+
+    Get user information like:
+    - phone number
+    - new password
+    - confirm password
+    - otp code
+
+    and reset your password, but you should before this get otp code
+    """
     permission_classes = (IsAnonymous,)
     serializer_class = ForgotPasswordSerializer
 

@@ -8,6 +8,11 @@ from flight.models import Flight
 
 
 class FlightListAPIView(ListAPIView):
+    """
+    Return list of flights with:
+    - filtering
+    - ordering
+    """
     queryset = Flight.objects.all()
     serializer_class = FlightSerializer
     filter_backends = (django_filters.rest_framework.DjangoFilterBackend, filters.OrderingFilter)

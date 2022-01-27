@@ -1,3 +1,4 @@
+from django.shortcuts import redirect
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import UpdateAPIView
@@ -11,6 +12,9 @@ from payment.models import Invoice
 
 
 class PaymentVerifyAPIView(UpdateAPIView):
+    """
+    Get boolean field to change is paid last payment
+    """
     permission_classes = (IsAuthenticated, PaymentCheck)
     serializer_class = PaymentVerifySerializer
 
@@ -20,6 +24,8 @@ class PaymentVerifyAPIView(UpdateAPIView):
             payment = cart.invoice.payments.last()
         except Invoice.DoesNotExist:
             raise ValidationError('invoice does not exists!')
+        if not cart.cart_is_empty():
+            return redirect('basket:cart-checkout')
         return payment
 
     def get(self, request, *args, **kwargs):

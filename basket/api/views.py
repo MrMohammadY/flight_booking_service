@@ -10,6 +10,18 @@ from payment.models import Invoice
 
 
 class TicketCreateAPIView(CreateAPIView):
+    """
+    Get flight information like:
+
+    - flight id
+    - flight seat id
+    - first name
+    - last name
+    - national name
+    - birthday
+
+    and create ticket and add to user basket
+    """
     permission_classes = (IsAuthenticated,)
     queryset = Ticket.objects.all()
     serializer_class = TickerCreateSerializer
@@ -25,11 +37,15 @@ class TicketCreateAPIView(CreateAPIView):
 
 
 class CartCheckoutAPIView(GenericAPIView):
+    """
+    User request to here for create invoice and payment after that user can go to payment verify
+    and change to is paid payment.
+    """
     permission_classes = (IsAuthenticated,)
 
     def get(self, request, *args, **kwargs):
         cart = Cart.get_or_created_cart(self.request.user)
-        if cart.tickets.count() != 0:
-            invoice, payment = Invoice.create_invoice_payment(self.request.user, cart)
+        if not cart.cart_is_empty():
+            Invoice.create_invoice_payment(self.request.user, cart)
             return redirect('payment:verify-payment')
         return Response({'message': 'your cart is empty!'}, status=status.HTTP_406_NOT_ACCEPTABLE)
