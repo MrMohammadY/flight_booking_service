@@ -16,6 +16,9 @@ class Cart(BaseModel):
     def __str__(self):
         return f'{self.user.username} - {self.is_paid}'
 
+    def is_empty(self):
+        return True if self.tickets.count() == 0 else False
+
     @classmethod
     def get_or_created_cart(cls, user):
         cart, created = cls.objects.get_or_create(user=user, is_paid=False)
@@ -24,7 +27,7 @@ class Cart(BaseModel):
     def calculate_cart_price(self):
         return self.tickets.aggregate(total_price=Sum('flight__price')).get('total_price')
 
-    def is_empty(self):
+    def cart_is_empty(self):
         return True if self.tickets.count() == 0 else False
 
     class Meta:
