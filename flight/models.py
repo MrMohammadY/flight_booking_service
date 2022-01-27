@@ -86,7 +86,7 @@ class Flight(BaseModel):
         return bool(self.depart_datetime > timezone.now())
 
     def __str__(self):
-        return f'{self.plane} - {self.from_city} - {self.to_city}'
+        return self.flight_number
 
     class Meta:
         verbose_name = _('Flight')
@@ -118,6 +118,9 @@ class FlightSeat(BaseModel):
         verbose_name=_('customer'),
         null=True, blank=True
     )
+
+    def __str__(self):
+        return f'{self.id}'
 
     def available_flight_seat(self):
         return bool(self.customer is None and not self.seat.is_reserve)
